@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Let’s Build an App - A Blitz Through Docker | Jedrzej Walega - Tutorials, ML, Cloud &amp; More</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Let’s Build an App - A Blitz Through Docker" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="What’s a Docker? Docker is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as dependencies. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as containers. Putting your app inside one is called containerization." />
+<meta property="og:description" content="What’s a Docker? Docker is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as dependencies. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as containers. Putting your app inside one is called containerization." />
+<link rel="canonical" href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" />
+<meta property="og:url" content="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" />
+<meta property="og:site_name" content="Jedrzej Walega - Tutorials, ML, Cloud &amp; More" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-12-03T13:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Let’s Build an App - A Blitz Through Docker" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-12-03T13:00:00+01:00","datePublished":"2023-12-03T13:00:00+01:00","description":"What’s a Docker? Docker is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as dependencies. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as containers. Putting your app inside one is called containerization.","headline":"Let’s Build an App - A Blitz Through Docker","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html"},"url":"http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Jedrzej Walega - Tutorials, ML, Cloud &amp; More" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Jedrzej Walega - Tutorials, ML, Cloud &amp; More</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Let&#39;s Build an App - A Blitz Through Docker</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-12-03T13:00:00+01:00" itemprop="datePublished">Dec 3, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="whats-a-docker">What’s a Docker?</h1>
+<p><strong>Docker</strong> is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as <strong>dependencies</strong>. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as <strong>containers</strong>. Putting your app inside one is called <strong>containerization</strong>.</p>
+
+<h2 id="core-docker-concepts">Core Docker Concepts</h2>
+<h3 id="container">Container</h3>
+
+<p><strong>Containers</strong> can be thought of as boxes where your app will run, isolated from the host’s operating system. Inside them you can freely define your dependencies and stop worrying about which host your app will run on. Thanks to the containers you can rest easy knowing that inside the box your app will have all the dependencies it needs to work properly. The host only needs to have Docker installed to launch your container with an app.</p>
+
+<p>It is important to note that containers have their own <strong>isolated</strong>, minimal file systems inside, which house your app’s code. Due to this isolation containers also have their own set of ports, which often need to be configured to communicate with your local host.</p>
+<h3 id="image">Image</h3>
+<p>Whenever you spawn a container, it is spawned based on an <strong>image</strong>, which is another core Docker concept. It contains all the code and dependencies necessary to deploy your app inside a container.</p>
+
+<p>Images are usually uploaded to image registries, which can be thought of as Github equivalents for images. They allow you to track the versioning of the image.</p>
+
+<p>Some of the popular image registries are: Docker Hub, Google Container Registry (GCR), Amazon Elastic Container Registry (ECR) and Azure Container Registry (ACR). The last three are integrated with the most popular cloud providers and for a good reason - images are the current standard in app deployment in the cloud.</p>
+<h3 id="dockerfile">Dockerfile</h3>
+<p>Creating an image (commonly referred to as building) is performed by your local Docker installation based on a set of instructions in a so-called <strong>Dockerfile</strong>. These steps are defined by you and should not only copy the app code from your local machine to the image, but also install all the necessary tooling and libraries. They should also provide some basic information about the image, like which command to run upon container start up or which ports in the container should be exposed.</p>
+
+<p>The filename “Dockerfile” is obligatory and is recognized by Docker as an instruction to build an image. Those instructions are defined in Docker specific syntax.</p>
+
+<p>A Dockerfile is subject to the same version control system as other files in a project, which means that any changes in image setup can be easily tracked and documented.</p>
+
+<h2 id="containerization-thought-map">Containerization Thought Map</h2>
+<p>In other words, if you want to put your app inside a container, the steps towards doing so are:
+1) Define the dependencies for your app
+2) Write a Dockerfile where those dependencies will be addressed
+3) Build an image
+4) Launch a container based on that image</p>
+
+<h1 id="base-docker-commands">Base Docker Commands</h1>
+<p>After you <a href="https://docs.docker.com/engine/install/">install Docker</a> on your local machine, you should get familiar with some of the basic Docker commands to work with containers:
+1) Build an image called image_name based on a Dockerfile in the current directory.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> image_name <span class="nb">.</span>
+</code></pre></div></div>
+<p>2) Launch a new container based on an image in an interactive mode (you will be able to interact with it from the terminal, which is very useful for debugging)</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-it</span> <span class="nt">--name</span> container_name image_name
+</code></pre></div></div>
+<p>3) Launch an interactive shell to get inside the container and interact with the files and logs. <strong>Extremely</strong> useful in debugging.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-it</span> container_name bash
+</code></pre></div></div>
+<p>4) Stop a running container. It will still be left on your system and you’ll be able to restart it.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop container_name
+</code></pre></div></div>
+<p>5) Remove a container from your system. If it’s running it will be stopped first.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">rm </span>container_name
+</code></pre></div></div>
+<p>5) List the images currently present in your system</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker images
+</code></pre></div></div>
+<p>6) List currently running containers</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+</code></pre></div></div>
+<h1 id="lets-build-an-app">Let’s Build an App</h1>
+<h2 id="badukninja">Baduk.ninja</h2>
+<p>In this exemplary app containerization I will share a Dockerfile from <a href="http://baduk.ninja/">baduk.ninja</a> - a website dedicated to all aspiring Go players aiming to improve their skills. While the source code for this project is currently private, it can still be used as a valid example for building a simple image for an app.</p>
+<h2 id="project-structure">Project Structure</h2>
+<p>The project can be summarised by the following directory hierarchy:</p>
+<ul>
+  <li>baduk.ninja
+    <ul>
+      <li>frontend
+        <ul>
+          <li>node_modules</li>
+          <li>src</li>
+          <li>public</li>
+          <li>package-lock.json</li>
+          <li>package.json</li>
+        </ul>
+      </li>
+      <li>backend
+        <ul>
+          <li>src</li>
+          <li>Cargo.lock</li>
+          <li>Cargo.toml</li>
+        </ul>
+      </li>
+      <li>sgfs</li>
+      <li>Dockerfile</li>
+      <li>run_services.sh</li>
+    </ul>
+  </li>
+  <li>rust-goban-fork
+    <h2 id="defining-dependencies">Defining Dependencies</h2>
+    <p>The frontend is written in JavaScript and uses React, with directory structure as expected by the npm package manager. It listens on port 80 and communicates with backend on port 4000.</p>
+  </li>
+</ul>
+
+<p>The backend is written in Rust and is structured to work with cargo package manager. Aside from official library releases, it uses a fork of the goban library, which we will have to handle while writing a Dockerfile. It also uses some sgfs files from a separate directory.</p>
+
+<p>In the main baduk.ninja directory we can also see a run_services.sh file, which will launch both fronted and backend. It will track the status of those two services and if at least one of them exits with an error, the entire process will, too. This will come in handy later, as run_services.sh will be the main entry script for our future containers. If either of our running services exits inside the container, we want the container itself to go down, too.</p>
+
+<h2 id="image-concept">Image Concept</h2>
+<p>We will build a single image that will run both the frontend and backend of our app. Since we’re using ports 80 and 4000, our future containers will have to expose those two ports to communicate with the host.</p>
+
+<p>In the image we are also looking for a way to build both the frontend and backend and use those executables in starting the services for an optimized performance.</p>
+
+<h2 id="picking-a-base-image">Picking a Base Image</h2>
+<h3 id="what-is-a-base-image">What is a Base Image?</h3>
+<p>It is important to note that when building an image we don’t do so from an absolute scratch. The first step is to pick a <strong>base image</strong>, which provides a basic file structure and some preinstalled tooling, and add our own changes on top of those. An example of a base image can be as simple as a minimal installation of Ubuntu, or a more robust Node or Rust base images. The last two come with a particular version of the language installed, along with most common tooling. They are publically available on Docker Hub and save a lot of time in not having to install all of the above features into the image on your own.</p>
+
+<h3 id="intermediate-images">Intermediate Images</h3>
+<p>While the robust images are great, they can be quite memory heavy and ideally we would like to get the best of both worlds:</p>
+<ul>
+  <li>When building the baduk.ninja image we would like to use robust base images. This will allow us to build frontend and backend without losing time for installing languages and tooling.</li>
+  <li>We would like the final image to be constructed based on a minimal Linux setup to save memory</li>
+</ul>
+
+<p>To achieve that we will use three base images:</p>
+<ul>
+  <li>rust:1.73.0 - base image for Rust builds</li>
+  <li>node:14 - base image for Node.js builds</li>
+  <li>frolvlad/alpine-glibc:latest - a minimal Linux Alpine build</li>
+</ul>
+
+<p>The first two will be used as <strong>intermediate base images</strong>. They will be mounted and used to build backend and frontend respectively. We will grab the optimized executables from the intermediate images and copy them to the lightweight Linux Alpine base image. Afterwards the robust intermediate images will be discarded.</p>
+
+<p>The major steps for our Dockerfile can be summarized as follows:
+1) Frontend build
+    - Mount Node base image
+    - Copy local, unoptimized frontend source code inside the image
+    - Install libraries with npm
+    - Build frontend code
+2) Backend build
+    - Mount Rust base image
+    - Clone the goban fork directory from Github
+    - Copy local, unoptimized backend and sgfs code inside the image
+    - Build backend code
+3) Final build
+    - Mount Linux Alpine base image
+    - Copy only executables from backend and frontend intermediates
+    - Install npm and serve tooling (necessary to launch frontend)
+    - Copy sgfs directory for optimized backend to work properly
+4) Add information in the image which ports should be exported
+5) Define a default command to launch upon container start</p>
+
+<h1 id="dockerfile-code">Dockerfile Code</h1>
+<p>Just as described above, we will start by building our frontend. As you can see below, we start off with picking node:14 as the base image for our intermediate image and alias it as frontend-build for future reference.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Stage 1: Build the React Frontend</span>
+FROM node:14 as frontend-build
+</code></pre></div></div>
+<p>Our base image by default has a few basic directories inside. One of them is called app and it is customary to place our app’s code there.</p>
+
+<p>We will use command WORKIDR to set our current working directory to /app/frontend. You can think of this as equivalent of the cd bash command, but WORKDIR will create you a directory in the expected path, if it doesn’t yet exist (whereas cd will not).</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Set the working directory for the frontend</span>
+WORKDIR /app/frontend
+</code></pre></div></div>
+<p>Once we’ve done that we will set an environment variable (yes, containers have their own set) to let frontend know at which address to communicate with backend. This environment variable is used at frontend build time.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ENV <span class="nv">REACT_APP_BACKEND_ADDRESS</span><span class="o">=</span>baduk.ninja:4000
+</code></pre></div></div>
+<p>We copy the frontend code from our local frontend directory into the current working directory in the image (so /app/frontend as specified earlier).</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Copy the frontend source code</span>
+COPY ./frontend ./
+</code></pre></div></div>
+<p>We then install frontend libraries with npm and build the code. It will create us a build directory with the optimized files that we want to include in the final (non-intermediate) image.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RUN npm <span class="nb">install</span>
+
+<span class="c"># Build the frontend in production mode</span>
+RUN npm run build
+</code></pre></div></div>
+<p>The backend build follows a similar pattern. First we mount a new base image and clone a github repo with the forked goban library we want to use. Then we copy the local backend code and sgfs files into their appropriate paths in the image, so that the directory hierarchy reflects our local project setup.</p>
+
+<p>In the final step we build the backend, which gives us an optimized executable for the final image.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Stage 2: Build the Rust Backend</span>
+FROM rust:1.73.0 as rust-build
+
+<span class="c"># Clone the goban repository</span>
+RUN git clone https://github.com/lukaszlew/rust-goban-fork.git /app/rust-goban-fork
+
+<span class="c"># Set the working directory for the backend</span>
+WORKDIR /app/baduk.ninja/backend
+
+<span class="c"># Copy the backend source code</span>
+COPY ./backend ./
+COPY ./sgfs /app/baduk.ninja/sgfs
+
+<span class="c"># Build the Rust backend</span>
+RUN cargo build <span class="nt">--release</span>
+</code></pre></div></div>
+<p>With frontend and backend optimized we move on to creating the final image. We mount Linux Alpine as our base and install some tooling necessary for the optimized frontend to launch in this minimal image.</p>
+
+<p>We also create a baduk.ninja app repository and switch into it. This is where we will copy our optimized code into.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Stage 3: Create the Production Image</span>
+FROM frolvlad/alpine-glibc:latest
+
+<span class="c"># Install Node.js and npm in the final image</span>
+RUN apk <span class="nt">--no-cache</span> add nodejs npm
+
+<span class="c"># Install serve to serve the frontend</span>
+RUN npm <span class="nb">install</span> <span class="nt">-g</span> serve
+
+WORKDIR /app/baduk.ninja
+</code></pre></div></div>
+<p>We reference our previously aliased frontend and backend intermediate images and copy only the optimized code into our Linux Alpine image. Then we also grab the sgfs files necessary for the backend to work properly, as well as run_services.sh file. As mentioned previously, this script, by default, will launch once we start a container based on our image.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Copy the built frontend from the frontend-build stage</span>
+COPY <span class="nt">--from</span><span class="o">=</span>frontend-build /app/frontend/build frontend
+
+<span class="c"># Copy the built Rust binary from the rust-builder stage</span>
+COPY <span class="nt">--from</span><span class="o">=</span>rust-build /app/baduk.ninja/backend/target/release/backend <span class="nb">.</span>
+COPY <span class="nt">--from</span><span class="o">=</span>rust-build /app/baduk.ninja/sgfs ./sgfs
+
+<span class="c"># Copy necessary scripts or files</span>
+COPY ./run_services.sh ./
+</code></pre></div></div>
+<p>Our .sh file is not executable by default, so we grant it the necessary permissions.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RUN <span class="nb">chmod</span> +x /app/baduk.ninja/run_services.sh
+</code></pre></div></div>
+<p>We tag our image with information which ports should be exposed.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Expose necessary ports</span>
+EXPOSE 80
+EXPOSE 4000
+</code></pre></div></div>
+<p>Finally, we define the default launch command for our image - to launch our run_services.sh script. It will invoke both frontend and backend, effectively starting our app.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Define the command to run your application</span>
+CMD <span class="o">[</span><span class="s2">"sh"</span>, <span class="s2">"/app/baduk.ninja/run_services.sh"</span><span class="o">]</span>
+</code></pre></div></div>
+<p>At this point we would save the Dockerfile and cd into the directory it is located into. Running a docker build command there should start up the creation of the image.</p>
+<h1 id="whats-next">What’s next?</h1>
+<p>The image we’ve just built works fine, but in a large scale application this setup would be difficult to manage. Large apps tend to work in a global way - you have instances of your app running in many geographic locations. You also want to have control over how many instances of your app are available to the users to meet the demand. Better yet, you would like to launch new containers when the demand increases and shut them off when it decreases to save compute.</p>
+
+<p>Finally, you might want to be able to scale just separate parts of the app - like backend, frontend or other related services. That’s why most large scale apps would not pack both frontend and backend into a single image. A popular approach is to create an app based on microservices, where every major function of the app has their own image, which can be scaled independently. It also makes it easier when deploying updates - you need to update just one micro service, not the whole app.</p>
+
+<p>The microservice approach introduces a question - if my services will be running separately, how will they communicate? That and other issues mentioned earlier can be handled by <strong>Kubernetes</strong>.</p>
+
+<p>It’s a technology aimed at orchestrating the containers to work together. You can define complex scaling strategies, control the amount of running containers, their placement and communication. Although Kubernetes calls them pods, the basic blocks of the technology are not unlike the containers you’re already familiar with. It’s a very powerful tech to enhance your app with once it grows, so if you’re looking to strengthen your ops skills, <a href="https://www.docker.com/">Kubernetes</a> is the direction you might want to grow into.</p>
+
+
+  </div><a class="u-url" href="/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Jedrzej Walega - Tutorials, ML, Cloud &amp; More</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Jedrzej Walega - Tutorials, ML, Cloud &amp; More</li><li><a class="u-email" href="mailto:jedrzejwalega@gmail.com">jedrzejwalega@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/jedrzejwalega"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">jedrzejwalega</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>My trusty little blog. I&#39;m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I&#39;ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. 
+I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :). </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
