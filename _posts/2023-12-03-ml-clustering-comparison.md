@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Machine Learning Clustering and Classification - Fundamentals and Comparison"
 date: 2023-12-03 12:00:00 -0000
 categories: [machine-learning, tutorial]
@@ -7,7 +6,7 @@ categories: [machine-learning, tutorial]
 
 <a href="https://colab.research.google.com/github/jedrzejwalega/Machine-Learning-Clustering-and-Classification-Fundamentals/blob/main/ML_clustering_comparison.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-#**Clustering and Classification Methods** - Basics, Strengths and Weaknesses
+# **Clustering and Classification Methods** - Basics, Strengths and Weaknesses
 
 
 
@@ -15,7 +14,7 @@ categories: [machine-learning, tutorial]
 
 Underneath is an introduction to a few most popular and fundamental techniques used in ML when dealing with those two tasks. They are hardly the most sophisticated methods, but are good to know - they are often surprisingly effective and even if not, are a good spring board towards more advanced approaches.
 
-##**K-Means**
+## **K-Means**
 
 K-Means is probably the simplest clustering algorithm. It's an unsupervised learning algorithm, so it tries to find patterns in unlabeled data. To be precise, it tries to divide the data points in our dataset into clearly separate groups (or "clusters"). Each data point is represented by a vector of length of at least 1.
 
@@ -23,7 +22,7 @@ An important parameter of the clusters we create is the centroid - the center po
 
 $$ \text{Euclidean Distance} = \sqrt{\sum_{i=1}^{n} (x_i - y_i)^2} $$
 
-###**Steps**
+### **Steps**
 K-Means follows the following logic:
 
 
@@ -33,7 +32,7 @@ K-Means follows the following logic:
 4.   With new centroids set, let's reassign the data points. The centroids have moved after all, so some data points may now be closer to other clusters.
 5.   We repeat those steps until our groups converge.
 
-###**Convergence**
+### **Convergence**
 How do we determine that the algorithm has converged? A widely used metric is inertia or within-cluster sum of squares (WCSS), which is just a sum of squared Euclidan distances of all the data points in the dataset:
 
 $$ \text{WCSS} = \sum_{i=1}^{k} \sum_{j=1}^{n_i} ||x_j - c_i||^2 $$
@@ -46,11 +45,11 @@ Where:
 
 If ingertia changes minimally between the iterations, we can say that the algorithm has converged. Alternative ways of assessing convergance is to track the movement of centroids - if they've stopped moving on a large scale, we can also say we've reached a convergence. Third method is to track the stability of the silhouette score, which is a metric that measures the cohesion in the cluster (how concentrated points are around the centroid) and separation between clusters.
 
-###**Strengths**
+### **Strengths**
 1. Efficient - Not demanding in computing power, which comes in handy with large datasets.
 2. Scalable - Works well with high-dimensional data (long vectors).
 
-###**Weaknesses**
+### **Weaknesses**
 1. **Spherical clusters** - Since at each iteration we're moving the centroids to the mean point in the cluster, their shapes will resemble spheres. Real world data may require more abstract cluster shapes than that.
 2. Sensitive to initial points - Results may vary depending on where you initialize the centroids.
 3. Sensitive to number of clusters - You need to specify the number of centroids you want and finding the proper number can be a challenge.
