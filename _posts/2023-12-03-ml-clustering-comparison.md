@@ -119,7 +119,7 @@ plt.show()
 
 
     
-![png](ML_clustering_comparison_files/ML_clustering_comparison_4_1.png)
+![png](/assets/images/ML_clustering_comparison_4_1.png)
     
 
 
@@ -186,7 +186,7 @@ plt.show()
 
 
     
-![png](ML_clustering_comparison_files/ML_clustering_comparison_7_0.png)
+![png](/assets/images/ML_clustering_comparison_7_0.png)
     
 
 
@@ -263,7 +263,7 @@ print(f"The predicted class for the new data point is: {predicted_class[0]}")
 
 
     
-![png](ML_clustering_comparison_files/ML_clustering_comparison_10_0.png)
+![png](/assets/images/ML_clustering_comparison_10_0.png)
     
 
 
@@ -386,7 +386,7 @@ print(f'Accuracy on the test set: {accuracy:.2f}')
 
 
     
-![png](ML_clustering_comparison_files/ML_clustering_comparison_13_0.png)
+![png](/assets/images/ML_clustering_comparison_13_0.png)
     
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-17T03:49:21+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jedrzej Walega - Tutorials, ML, Cloud &amp;amp; More</title><subtitle>My trusty little blog. I’m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I’ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :).</subtitle><entry><title type="html">Let’s Build an App - A Blitz Through Docker</title><link href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" rel="alternate" type="text/html" title="Let’s Build an App - A Blitz Through Docker" /><published>2023-12-03T13:00:00+01:00</published><updated>2023-12-03T13:00:00+01:00</updated><id>http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker</id><content type="html" xml:base="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html">&lt;h1 id=&quot;whats-a-docker&quot;&gt;What’s a Docker?&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-18T06:34:01+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jedrzej Walega - Tutorials, ML, Cloud &amp;amp; More</title><subtitle>My trusty little blog. I’m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I’ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :).</subtitle><entry><title type="html">Let’s Build an App - A Blitz Through Docker</title><link href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" rel="alternate" type="text/html" title="Let’s Build an App - A Blitz Through Docker" /><published>2023-12-03T13:00:00+01:00</published><updated>2023-12-03T13:00:00+01:00</updated><id>http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker</id><content type="html" xml:base="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html">&lt;h1 id=&quot;whats-a-docker&quot;&gt;What’s a Docker?&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;Docker&lt;/strong&gt; is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as &lt;strong&gt;dependencies&lt;/strong&gt;. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as &lt;strong&gt;containers&lt;/strong&gt;. Putting your app inside one is called &lt;strong&gt;containerization&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;core-docker-concepts&quot;&gt;Core Docker Concepts&lt;/h2&gt;
@@ -346,7 +346,7 @@ Where:&lt;/p&gt;
   warnings.warn(
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;ML_clustering_comparison_files/ML_clustering_comparison_4_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/ML_clustering_comparison_4_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Example 1 shows clearly defined, roughly spherical clusters. In Example 2 the clusters are irregular and spread out (except the one in the top right, which looks correct). The centroid of the light green cluster is visibly misplaced from the center of the blob, suggesting the impact of outliers. Silhouette score and Davis-Bouldin index are two ways of assessing the quality of the clusters in a numeric way.&lt;/p&gt;
 
@@ -413,7 +413,7 @@ Where:&lt;/p&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;ML_clustering_comparison_files/ML_clustering_comparison_7_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/ML_clustering_comparison_7_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;real-life-example-1&quot;&gt;&lt;strong&gt;Real Life Example&lt;/strong&gt;&lt;/h3&gt;
 
@@ -486,7 +486,7 @@ Where:&lt;/p&gt;
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The predicted class for the new data point is: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicted_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;ML_clustering_comparison_files/ML_clustering_comparison_10_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/ML_clustering_comparison_10_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The predicted class for the new data point is: 1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -627,7 +627,7 @@ Where:&lt;/p&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;ML_clustering_comparison_files/ML_clustering_comparison_13_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/ML_clustering_comparison_13_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Accuracy on the test set: 1.00
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
