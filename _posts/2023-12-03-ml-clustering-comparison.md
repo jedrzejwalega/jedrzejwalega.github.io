@@ -1,7 +1,12 @@
 ---
 title: "Machine Learning Clustering and Classification - Fundamentals and Comparison"
+layout: splash
 date: 2023-12-03 12:00:00 -0000
 categories: [machine-learning, tutorial]
+header:
+  overlay_image: /assets/images/clustering_banner.jpg
+  overlay_filter: 0.3
+excerpt: "A starter for getting into machine learning"
 ---
 
 <a href="https://colab.research.google.com/github/jedrzejwalega/Machine-Learning-Clustering-and-Classification-Fundamentals/blob/main/ML_clustering_comparison.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>

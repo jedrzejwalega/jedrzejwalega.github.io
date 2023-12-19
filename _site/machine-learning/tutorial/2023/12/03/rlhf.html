@@ -9,21 +9,23 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>RLHF - A Gentle Introduction - Jedrzej Walega - Tutorials, ML, Cloud &amp; More</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>Reinforcement Learning From Human Feedback (RLHF) - A Gentle Introduction - Jedrzej Walega - Tutorials, ML, Cloud &amp; More</title>
+<meta name="description" content="State of the art approach - what makes ChatGPT great">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Jedrzej Walega - Tutorials, ML, Cloud & More">
-<meta property="og:title" content="RLHF - A Gentle Introduction">
+<meta property="og:title" content="Reinforcement Learning From Human Feedback (RLHF) - A Gentle Introduction">
 <meta property="og:url" content="http://localhost:4000/machine-learning/tutorial/2023/12/03/rlhf.html">
 
 
-  <meta property="og:description" content="">
+  <meta property="og:description" content="State of the art approach - what makes ChatGPT great">
 
 
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/rlhf_banner.jpg">
 
 
 
@@ -87,7 +89,7 @@
 
   </head>
 
-  <body class="layout--default">
+  <body class="layout--splash">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -125,6 +127,50 @@
 
 
     <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/assets/images/rlhf_banner.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Reinforcement Learning From Human Feedback (RLHF) - A Gentle Introduction
+
+        
+      </h1>
+      
+        <p class="page__lead">State of the art approach - what makes ChatGPT great
+</p>
+      
+      
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Reinforcement Learning From Human Feedback (RLHF) - A Gentle Introduction">
+    <meta itemprop="description" content="State of the art approach - what makes ChatGPT great">
+    <meta itemprop="datePublished" content="2023-12-03T13:00:00+01:00">
+    
+
+    <section class="page__content" itemprop="text">
       <p><a href="https://colab.research.google.com/github/jedrzejwalega/RLHF-Gentle-Introduction/blob/main/rlhf.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></p>
 
 <h1 id="whats-rlhf-and-why-the-hype"><strong>What’s RLHF and why the hype?</strong></h1>
@@ -227,6 +273,10 @@ V - is the expected reward assuming a certain model’s state</p>
 <p>Having humans label lots of training data is <strong>slow</strong> and <strong>expensive</strong>. RLHF does <strong>not scale well</strong> if you wish to use it to teach your model a complex behavior. It’s also important to remember that the choice of labeler team is critical for the results you’re going to get. Ratings given by the labelers can vary wildly for the same LLM output. More often than not the ratings will also carry some inherent bias related to the author. This variability can sometimes <strong>skew</strong> the learning results.</p>
 
 <p>RLHF is a fairly recent technique and is part of active development. At the point of writing this short tutorial there are multiple different methods of creating the neural network rating model, each one trying to squeeze out additional precision. Here we’ve just covered one of them, although the modifications don’t stray far from the idea presented. That said, if RLHF continues advancing at the current rate, It’s very likely that at least some its current weaknesses will be addressed in a near future.</p>
+
+    </section>
+  </article>
+</div>
 
     </div>
 

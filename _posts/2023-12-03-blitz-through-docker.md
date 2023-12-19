@@ -2,6 +2,11 @@
 title: "Let's Build an App - A Blitz Through Docker"
 date: 2023-12-03 12:00:00 -0000
 categories: [docker, tutorial, cloud]
+header:
+  overlay_image: /assets/images/docker_banner.jpg
+  overlay_filter: 0.3
+layout: splash
+excerpt: "Docker basics and example project"
 ---
 
 # What's a Docker?
@@ -28,9 +33,13 @@ A Dockerfile is subject to the same version control system as other files in a p
 
 ## Containerization Thought Map
 In other words, if you want to put your app inside a container, the steps towards doing so are:
+
 1) Define the dependencies for your app
+
 2) Write a Dockerfile where those dependencies will be addressed
+
 3) Build an image
+
 4) Launch a container based on that image
 
 # Base Docker Commands
@@ -112,22 +121,39 @@ To achieve that we will use three base images:
 The first two will be used as **intermediate base images**. They will be mounted and used to build backend and frontend respectively. We will grab the optimized executables from the intermediate images and copy them to the lightweight Linux Alpine base image. Afterwards the robust intermediate images will be discarded.
 
 The major steps for our Dockerfile can be summarized as follows:
+
 1) Frontend build
+
     - Mount Node base image
+
     - Copy local, unoptimized frontend source code inside the image
+
     - Install libraries with npm
+
     - Build frontend code
+
 2) Backend build
+
     - Mount Rust base image
+
     - Clone the goban fork directory from Github
+
     - Copy local, unoptimized backend and sgfs code inside the image
+
     - Build backend code
+
 3) Final build
+
     - Mount Linux Alpine base image
+
     - Copy only executables from backend and frontend intermediates
+
     - Install npm and serve tooling (necessary to launch frontend)
+
     - Copy sgfs directory for optimized backend to work properly
+
 4) Add information in the image which ports should be exported
+
 5) Define a default command to launch upon container start
 
 # Dockerfile Code
