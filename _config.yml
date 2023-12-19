@@ -31,6 +31,8 @@ remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 plugins:
   - jekyll-feed
   - jekyll-include-cache
+markdown: kramdown
+mathjax: true
 
 # Exclude from processing.
 # The following items will not be processed, by default.

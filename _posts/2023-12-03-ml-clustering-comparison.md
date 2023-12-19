@@ -46,7 +46,7 @@ Where:
 - n<sub>i</sub> is the number of data points in cluster i.
 - x<sub>j</sub> is a data point.
 - c<sub>i</sub> is the centroid of cluster i.
-- ||x<sub>j</sub> - c<sub>i</sub>||<sup>2</sup>represents the squared Euclidean distance between a data point and its assigned centroid.
+- \|\|x<sub>j</sub> - c<sub>i</sub>\|\|<sup>2</sup>represents the squared Euclidean distance between a data point and its assigned centroid.
 
 If ingertia changes minimally between the iterations, we can say that the algorithm has converged. Alternative ways of assessing convergance is to track the movement of centroids - if they've stopped moving on a large scale, we can also say we've reached a convergence. Third method is to track the stability of the silhouette score, which is a metric that measures the cohesion in the cluster (how concentrated points are around the centroid) and separation between clusters.
 
@@ -305,7 +305,7 @@ $$ P(Y=1|z) = \frac{1}{1 + e^{-z}} $$
 
 Where:
 
-P(Y=1|z) - is the probability of the event Y happening given the input z.
+P(Y=1\|z) - is the probability of the event Y happening given the input z.
 
 e - the mathematical constant approximately equal to 2.71828.
 
@@ -317,7 +317,7 @@ $$ P(Y=1|x) = \frac{1}{1 + e^{-(b_0 + b_1 \times x)}} $$
 
 Where:
 
-P(Y=1|x) - is the probability of the event Y happening given the input x.
+P(Y=1\|x) - is the probability of the event Y happening given the input x.
 
 e - the mathematical constant approximately equal to 2.71828.
 

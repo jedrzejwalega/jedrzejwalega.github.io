@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-19T02:57:57+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jedrzej Walega - Tutorials, ML, Cloud &amp;amp; More</title><subtitle>My trusty little blog. I’m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I’ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :).</subtitle><entry><title type="html">Let’s Build an App - A Blitz Through Docker</title><link href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" rel="alternate" type="text/html" title="Let’s Build an App - A Blitz Through Docker" /><published>2023-12-03T13:00:00+01:00</published><updated>2023-12-03T13:00:00+01:00</updated><id>http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker</id><content type="html" xml:base="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html">&lt;h1 id=&quot;whats-a-docker&quot;&gt;What’s a Docker?&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-19T03:48:14+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jedrzej Walega - Tutorials, ML, Cloud &amp;amp; More</title><subtitle>My trusty little blog. I’m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I’ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :).</subtitle><entry><title type="html">Let’s Build an App - A Blitz Through Docker</title><link href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" rel="alternate" type="text/html" title="Let’s Build an App - A Blitz Through Docker" /><published>2023-12-03T13:00:00+01:00</published><updated>2023-12-03T13:00:00+01:00</updated><id>http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker</id><content type="html" xml:base="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html">&lt;h1 id=&quot;whats-a-docker&quot;&gt;What’s a Docker?&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;Docker&lt;/strong&gt; is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as &lt;strong&gt;dependencies&lt;/strong&gt;. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as &lt;strong&gt;containers&lt;/strong&gt;. Putting your app inside one is called &lt;strong&gt;containerization&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;core-docker-concepts&quot;&gt;Core Docker Concepts&lt;/h2&gt;
@@ -282,18 +282,7 @@ Where:&lt;/p&gt;
   &lt;li&gt;n&lt;sub&gt;i&lt;/sub&gt; is the number of data points in cluster i.&lt;/li&gt;
   &lt;li&gt;x&lt;sub&gt;j&lt;/sub&gt; is a data point.&lt;/li&gt;
   &lt;li&gt;c&lt;sub&gt;i&lt;/sub&gt; is the centroid of cluster i.&lt;/li&gt;
-  &lt;li&gt;
-    &lt;table&gt;
-      &lt;tbody&gt;
-        &lt;tr&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;x&lt;sub&gt;j&lt;/sub&gt; - c&lt;sub&gt;i&lt;/sub&gt;&lt;/td&gt;
-          &lt;td&gt; &lt;/td&gt;
-          &lt;td&gt;&lt;sup&gt;2&lt;/sup&gt;represents the squared Euclidean distance between a data point and its assigned centroid.&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/tbody&gt;
-    &lt;/table&gt;
-  &lt;/li&gt;
+  &lt;li&gt;||x&lt;sub&gt;j&lt;/sub&gt; - c&lt;sub&gt;i&lt;/sub&gt;||&lt;sup&gt;2&lt;/sup&gt;represents the squared Euclidean distance between a data point and its assigned centroid.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;If ingertia changes minimally between the iterations, we can say that the algorithm has converged. Alternative ways of assessing convergance is to track the movement of centroids - if they’ve stopped moving on a large scale, we can also say we’ve reached a convergence. Third method is to track the stability of the silhouette score, which is a metric that measures the cohesion in the cluster (how concentrated points are around the centroid) and separation between clusters.&lt;/p&gt;
@@ -545,14 +534,7 @@ Where:&lt;/p&gt;
 
 &lt;p&gt;Where:&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;P(Y=1&lt;/td&gt;
-      &lt;td&gt;z) - is the probability of the event Y happening given the input z.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;P(Y=1|z) - is the probability of the event Y happening given the input z.&lt;/p&gt;
 
 &lt;p&gt;e - the mathematical constant approximately equal to 2.71828.&lt;/p&gt;
 
@@ -564,14 +546,7 @@ Where:&lt;/p&gt;
 
 &lt;p&gt;Where:&lt;/p&gt;
 
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;P(Y=1&lt;/td&gt;
-      &lt;td&gt;x) - is the probability of the event Y happening given the input x.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;P(Y=1|x) - is the probability of the event Y happening given the input x.&lt;/p&gt;
 
 &lt;p&gt;e - the mathematical constant approximately equal to 2.71828.&lt;/p&gt;
 

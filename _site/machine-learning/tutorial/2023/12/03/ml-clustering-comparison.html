@@ -208,18 +208,7 @@ Where:</p>
   <li>n<sub>i</sub> is the number of data points in cluster i.</li>
   <li>x<sub>j</sub> is a data point.</li>
   <li>c<sub>i</sub> is the centroid of cluster i.</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td> </td>
-          <td>x<sub>j</sub> - c<sub>i</sub></td>
-          <td> </td>
-          <td><sup>2</sup>represents the squared Euclidean distance between a data point and its assigned centroid.</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
+  <li>||x<sub>j</sub> - c<sub>i</sub>||<sup>2</sup>represents the squared Euclidean distance between a data point and its assigned centroid.</li>
 </ul>
 
 <p>If ingertia changes minimally between the iterations, we can say that the algorithm has converged. Alternative ways of assessing convergance is to track the movement of centroids - if they’ve stopped moving on a large scale, we can also say we’ve reached a convergence. Third method is to track the stability of the silhouette score, which is a metric that measures the cohesion in the cluster (how concentrated points are around the centroid) and separation between clusters.</p>
@@ -471,14 +460,7 @@ Where:</p>
 
 <p>Where:</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>P(Y=1</td>
-      <td>z) - is the probability of the event Y happening given the input z.</td>
-    </tr>
-  </tbody>
-</table>
+<p>P(Y=1|z) - is the probability of the event Y happening given the input z.</p>
 
 <p>e - the mathematical constant approximately equal to 2.71828.</p>
 
@@ -490,14 +472,7 @@ Where:</p>
 
 <p>Where:</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>P(Y=1</td>
-      <td>x) - is the probability of the event Y happening given the input x.</td>
-    </tr>
-  </tbody>
-</table>
+<p>P(Y=1|x) - is the probability of the event Y happening given the input x.</p>
 
 <p>e - the mathematical constant approximately equal to 2.71828.</p>
 
@@ -616,17 +591,10 @@ Where:</p>
       </footer>
     </div>
 
-    
-  <script src="/assets/js/main.min.js"></script>
-
-
-
-
-
-
-
-
-
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" defer
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 
   </body>
 </html>
