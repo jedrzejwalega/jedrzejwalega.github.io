@@ -1,4 +1,154 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-19T03:48:14+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jedrzej Walega - Tutorials, ML, Cloud &amp;amp; More</title><subtitle>My trusty little blog. I’m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I’ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :).</subtitle><entry><title type="html">Let’s Build an App - A Blitz Through Docker</title><link href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" rel="alternate" type="text/html" title="Let’s Build an App - A Blitz Through Docker" /><published>2023-12-03T13:00:00+01:00</published><updated>2023-12-03T13:00:00+01:00</updated><id>http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker</id><content type="html" xml:base="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html">&lt;h1 id=&quot;whats-a-docker&quot;&gt;What’s a Docker?&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-04T00:14:05+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jedrzej Walega - Tutorials, ML, Cloud &amp;amp; More</title><subtitle>My trusty little blog. I’m interested in ML, so you can expect it as a central motiff behind my posts. That said, I believe in versatility and understanding the bigger scope of IT industry - I’ll definitely throw in cloud related and app development content as well, or whatever piques my interest at the time. I like tutoring other people so look forward to beginner friendly, introductory tutorials. All feedback will be much appreciated :).</subtitle><entry><title type="html">Stable Diffusion (Image Generation) - How to Use &amp;amp; How It Works</title><link href="http://localhost:4000/machine-learning/tutorial/2023/12/31/stable-diffusion.html" rel="alternate" type="text/html" title="Stable Diffusion (Image Generation) - How to Use &amp;amp; How It Works" /><published>2023-12-31T13:00:00+01:00</published><updated>2023-12-31T13:00:00+01:00</updated><id>http://localhost:4000/machine-learning/tutorial/2023/12/31/stable-diffusion</id><content type="html" xml:base="http://localhost:4000/machine-learning/tutorial/2023/12/31/stable-diffusion.html">&lt;h2 id=&quot;stable-diffusion---the-current-state-of-the-art&quot;&gt;&lt;strong&gt;Stable Diffusion - the current state of the art&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;At this point most of the Internet users have at least seen the spectacular images outputted by the breakthrough generative models from the last few years. &lt;strong&gt;Midjourney&lt;/strong&gt;, &lt;strong&gt;DALLE-3&lt;/strong&gt;, &lt;strong&gt;NovelAI&lt;/strong&gt; and &lt;strong&gt;Stable Diffusion&lt;/strong&gt; are just a few of the many services available at the moment. They all work in a similar manner - you, the user, provide a text prompt that guides the model in the generation process. It outputs an image in the size of your choosing. On the surface, that’s all you need to generate your art.&lt;/p&gt;
+
+&lt;p&gt;When you dig under the hood, you’re going to discover some advanced options to tweak. Playing around with them can lead to drastically improved results. But how do you use them properly, if their names don’t really describe what they control? &lt;strong&gt;Steps&lt;/strong&gt;, &lt;strong&gt;guidance&lt;/strong&gt;, &lt;strong&gt;image to image&lt;/strong&gt; - what is this and where did it come from? You’re about to find out in this tutorial.&lt;/p&gt;
+
+&lt;p&gt;Understanding those features requires us to dive deeper into the inner workings of generative AI. It’s a difficult subject, considering that Midjourney, NovelAI and DALLE-3 are all proprietary tech. &lt;strong&gt;Stable Diffusion&lt;/strong&gt; is not, though. We don’t know how propietary ones work in depth - but the advanced options they offer sure are strikingly similar to the open source Stable Diffusion. That’s why this open source tool is great for understanding text to image generation in general.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-humans-do-it&quot;&gt;&lt;strong&gt;How humans do it&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Biology and natural evolution has inspired many human discoveries. So, it’s probably not a bad idea to first look at how a trained human brain would approach the whole “art” problem.&lt;/p&gt;
+
+&lt;p&gt;You might have seen human artists at work. Whether they’re painters, designers or sculptors, they all share a similar approach to creating their art pieces. It’s a gradual process. They start off from a solid block of material (or an empty canvas). Initially, they try to find general shapes and silhouettes of their piece. Only once those are set, do they move to adding in finer details and correcting any defects.&lt;/p&gt;
+
+&lt;p&gt;The tensor operations we’re going to look at can be intimidating at first. So, it’s good to keep in mind the human approach. Although it’s not 100% mirrored, we’ll be trying to achieve a process that resembles the professional artists’ workflow.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/sculptor.jpeg&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;there-and-back-again---the-diffusion-model&quot;&gt;&lt;strong&gt;There and back again - the diffusion model&lt;/strong&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;noise-predictor&quot;&gt;&lt;strong&gt;Noise predictor&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Although the process of converting a text prompt into an image is a little bit more complicated than that, at the heart of it lies the &lt;strong&gt;noise predictor model&lt;/strong&gt; (we’re going to cover the rest afterward).&lt;/p&gt;
+
+&lt;p&gt;It’s a deep learning model revolving around a very clever idea. Suppose you have a set of images of different vehicles: cars, trains, boats and planes. You would go ahead and add some random noise to the images. Then take those pictures and corrupt them again, and again. In the end it would reduce them to an unrecognizable set of pixels. Side by side, the comparison of before vs after multiple corruption steps would look like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/car_before_after.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;At this point you would have a dataset of images, corrupted to a varied degree. Then you would feed the noised image, along with its vehicle category (in the case above, “car”) into the model. Its task would be to predict a tensor representing the noise that was added to the original image. In case you’re wondering, in this case of machine learning problem we have a ground truth for our observations (the clean image), so it’s an example of &lt;strong&gt;supervised learning&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s assume we’ve successfully trained the model. We could use it to predict the noise that we’ve originally added to the image. After subtracting the predicted noise from the noisy image, we would get the original one. Great, now we can fix what we’ve broken in the first place. But, is that the model’s only usage?&lt;/p&gt;
+
+&lt;p&gt;Now imagine a situation where we generate a completely new, random, noisy image that was not originally a valid one. Just a bunch of random, gibberish pixels. Then we would feed it to our trained model along with the “plane” label. What would the net do then? Exactly what it was trained to do - predict the noise that was added to the original plane picture. Of course, there was no plane to begin with, but the net will try to recover one anyway. And this way, after subtracting the predicted noise, we will get &lt;strong&gt;a completely new, original image&lt;/strong&gt; of a plane.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/plane.jpeg&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It feels like cheating, but that’s actually how diffusion models work. The diffusion part actually refers to the process of corrupting an image with noise. In this regard our way of constructing a training dataset can be referred to as &lt;strong&gt;forward diffusion&lt;/strong&gt;. What we actually want to use though is the &lt;strong&gt;reverse diffusion&lt;/strong&gt; - the process of denoising a gibberish image to recover a clean one.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-by-step&quot;&gt;&lt;strong&gt;Step by step&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;We’ve mentioned real life artists and their stepwise approach to creating an art piece. Turns out this method works quite well for deep learning approach, too.&lt;/p&gt;
+
+&lt;p&gt;Our noise predictor gives us a tensor with the predicted noise that we should subtract from the image. If we substract it, in theory, we should get our ready output picture. In practice though, our predictor might not be good enough to clear all the noise from the input gibberish it gets &lt;strong&gt;in one go&lt;/strong&gt;. It’s probably going to do a good job at determining basic shapes, but not finer details. However, if we were to grab what it spits out and feed it as an input to the model again, it could now focus on the finer aspects of the piece.&lt;/p&gt;
+
+&lt;p&gt;We can repeat this step many, many times. It’s worth remembering though, that the detailing part of the art piece requires more subtlety than the first, crude approach, which only determines the basic shapes and figures. Theat’s where a parameter called &lt;strong&gt;scheduler&lt;/strong&gt; comes in.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/03/image-104.png?resize=750%2C414&amp;amp;ssl=1&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Source: https://iway.org/stable-diffusion-samplers/&lt;/p&gt;
+
+&lt;p&gt;It is a value that determines the percentage of predicted noise that will actually be subtracted from the image we’re denoising. It tends to decrease with each step, since we can expect that the further we go, the more the model will work on the details of our image. There are multiple versions of the scheduler, for instance some can decrease the percentage linearly, others (like the scheduler above) exponentially.&lt;/p&gt;
+
+&lt;p&gt;I’ve mentioned &lt;strong&gt;steps&lt;/strong&gt; - yes, that’s exactly the “steps” parameter you can see in the services I mentioned at the beginning. For instance, NovelAI allows you to adjust how many steps you wish to dedicate to creating your piece. More steps generally means better results. The model will usually converge on some n step and stop majorly modifying the image further, though. No point in going too crazy, then. Especially given that more steps means more time and precious compute time needed for the generation. Knowing that, you surely understand why adding additional steps usually means paying with your precious subscription tokens.&lt;/p&gt;
+
+&lt;p&gt;Another interesting detail is that after each step we don’t just grab the partially denoised output of the model and use it as input again. We add some more of the &lt;strong&gt;new noise&lt;/strong&gt; first. Doing that helps the model deal with difficult generations, as it can get stuck on certain cases. Adding in some new noise for it to work with tends to produce good and reliable results.&lt;/p&gt;
+
+&lt;h2 id=&quot;from-diffusion-to-stable-diffusion&quot;&gt;&lt;strong&gt;From diffusion to Stable Diffusion&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;latent-space-diffusion&quot;&gt;&lt;strong&gt;Latent space diffusion&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;We’ve just talked about diffusion. It let’s us create completely new images with a clever trick - but we wanted to learn about &lt;strong&gt;Stable&lt;/strong&gt; Diffusion. So, what sets apart the discussed process from one of the current state of the art models?&lt;/p&gt;
+
+&lt;p&gt;The answer is, &lt;strong&gt;efficiency&lt;/strong&gt;. For every image in color the number of values you will need your model to generate will be given by:&lt;/p&gt;
+
+\[\text{n} = w * h * c\]
+
+&lt;p&gt;Where:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;n - the number of values your final image will have&lt;/li&gt;
+  &lt;li&gt;w - width of the image&lt;/li&gt;
+  &lt;li&gt;h - height of the image&lt;/li&gt;
+  &lt;li&gt;c - number of channels; for RGB image (in color) it’s equal to 3 for red, green and blue channels&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Imagine generating a 720p portait (1280 x 720) in color - that’s 2764800 values. Let’s size it down to a more modest 512 x 512 - that’s still close to a million (786432) values! That is a lot and even the most modern GPUs will take their time with it. Stable Diffusion was designed with efficiency in mind, to exact this particular problem.&lt;/p&gt;
+
+&lt;p&gt;The general idea behind it is: let’s take the original input image and compress it down to a smaller size. Let’s generate a similarly compressed output and only then let’s decompress it to our desired size. We usually refer to compressed images as images in &lt;strong&gt;latent space&lt;/strong&gt;.In practice, for 512 x 512 input, we’re talking &lt;strong&gt;4 x 64 x 64&lt;/strong&gt;, a standard size for the latent space in Stable Diffusion. If you compare the original 512 x 512 image versus the compressed one, we’re talking &lt;strong&gt;48 times reduction&lt;/strong&gt; in compute!&lt;/p&gt;
+
+&lt;p&gt;This approach would let us save a lot of precious GPU workfload, but wait, can we really do that? Can we just compress an image to some small size, with 4 channels no less and not lose information? It turns out we can, or at least not lose much. But we need a smart way to do that.&lt;/p&gt;
+
+&lt;h3 id=&quot;variational-autoencoder&quot;&gt;&lt;strong&gt;Variational Autoencoder&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The compression and decompression is handled by the &lt;strong&gt;Variational Autoencoder&lt;/strong&gt; (VAE) neural network. It’s composed of two components, the &lt;strong&gt;encoder&lt;/strong&gt; and &lt;strong&gt;decoder&lt;/strong&gt;. The encoder is responsible for the compression of the input image, while the decoder - for the decompression of the output. Those same components are employed during training (for instance the random noise tensor is added to an already compressed image). It sheds a new light at how the steps we’ve just discussed &lt;strong&gt;really&lt;/strong&gt; work.&lt;/p&gt;
+
+&lt;p&gt;The VAE net does not perform magecraft, of course. The reason why it is possible to represent an image in latent space effectively is due to its nature. It is heavily influenced by proximity and regularity. If you grab an image and reduce it a small size, you’re going to lose quality - but you’ll still be able to recognize what the image represents. So even a heavy handed downsizing approach works quite well and shows just how regular images are. The VAE we’re using learns how to additionally squeeze in as much details into the representation so that the loss of information is minimal.&lt;/p&gt;
+
+&lt;h2 id=&quot;handling-the-prompt&quot;&gt;&lt;strong&gt;Handling the prompt&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;what-are-we-missing&quot;&gt;&lt;strong&gt;What are we missing?&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Let’s take a step back and think of how we’ve originally described the training process. The noise predictor, as one of the inputs, would take the type of vehicle as a hint of what should be in the image. This, of course, can be compared to a very simple text prompt that you give from user side in image creation. But, if you’ve ever tried it out, you would know that the service offers you great flexibility. You can pass in a long, complex prompt and the model still interprets it fine, giving you an image beyond a simple “car” or “plane”. How does it happen?&lt;/p&gt;
+
+&lt;h3 id=&quot;from-text-to-tokens-and-to-embeddings&quot;&gt;&lt;strong&gt;From text to tokens, and to embeddings&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The way Stable Diffusion handles the text prompt (both during training and inference) is based on &lt;strong&gt;tokenizing&lt;/strong&gt; it and converting it to &lt;strong&gt;embeddings&lt;/strong&gt;, which are consumed by the noise prediction model as input.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Tokens&lt;/strong&gt; are just little pieces of the prompt and can be thought of as the model’s vocabulary. For a start you can think of them as single words of the prompt, but in reality tokens are more complicated than that. They don’t always represent a single word (although they still may). There are also instances where interpunction like whitespace is affixed as part of a token. This makes them more robust than simple words. There are also a lot of different techniques to tokenizing, which produces a whole pletora of different token vocabularies. Stable Diffusion in particular uses &lt;strong&gt;CLIP tokenizer&lt;/strong&gt;. We will come back to it later, when we summarise the entire pipeline. No matter the technique though, the tokens are a result of splitting your prompt into simpler pieces.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Embeddings&lt;/strong&gt; are learnable vectors. A lot could be said about them, but if you’re not already familiar, it is a way of providing the model with additional information on the tokens. For instance, as input, we could give the model two numbers - 34 and 555, representing indices of tokens “car” and “audi”. That’s fine, but it would be helpful for the model to know that “audi” and “car” are very similar to each other. Otherwise it sees no particular connection between the two classes. We’re feeding it just two rough numbers, after all. But if we were to give it to vectors, similar to each other in many ways and differing in minor details, it would provide the model with information, that those two tokens deal with similar concepts. In Stable Diffusion we &lt;strong&gt;reuse&lt;/strong&gt; the ready, already learned embeddings, which represent the relationships between the tokens. We do not train them ourselves.&lt;/p&gt;
+
+&lt;p&gt;So, after we tokenize the prompt into n tokens, and change them into corresponding embeddings, each of length m (all embeddings are equal in length), we get a n x m tensor. This tensor is what we actually feed into the noise predictor as an input.&lt;/p&gt;
+
+&lt;h3 id=&quot;guidance&quot;&gt;&lt;strong&gt;Guidance&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;One of the more striking options to choose from in image generation is the &lt;strong&gt;guidance&lt;/strong&gt;. It’s a parameter that lets us control how much freedom the model will have in generating the image and how much will it have to rely on our prompt. Guidance is a major factor in the equation defining the final output of our noise predictor model:&lt;/p&gt;
+
+\[∇x log p_γ(x|y) = (1 - γ) ∇x log p(x) + γ ∇x log p(y|x)\]
+
+&lt;p&gt;Where:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;∇x log p(x) - output of the conditional model&lt;/li&gt;
+  &lt;li&gt;∇x log p(y|x) - output of the unconditional model&lt;/li&gt;
+  &lt;li&gt;γ - guidance; on the scale from 0 to 1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If math is not your thing, it can be understood as such:&lt;/p&gt;
+
+\[\text{Combined Output} = (1 - γ) * \text{Unconditioned Output} + γ * \text{Conditioned Output}\]
+
+&lt;p&gt;In other words, we generate the output of the model two times: first, where we don’t give it any prompt at all (the &lt;strong&gt;unconditioned output&lt;/strong&gt;) and second, where we give it our prompt (the &lt;strong&gt;conditioned output&lt;/strong&gt;). The final, combined output of the model is a proportion of the two. The higher the guidance, the more of the conditioned output will be present in the combined output, up to 100% if we pick guidance equal to 1.&lt;/p&gt;
+
+&lt;p&gt;I don’t recommend going too crazy with the guidance, though - leaving the model some room for creativity usually improves the output quality and choking it can lead to weird generations.&lt;/p&gt;
+
+&lt;p&gt;This particular form of guidance we’ve just explained is called &lt;strong&gt;Classifier-free guidance&lt;/strong&gt; (&lt;strong&gt;CFG&lt;/strong&gt;). As you may expect, there is also a &lt;strong&gt;Classifier guidance&lt;/strong&gt;, an older approach. It used a trained classifier neural net which took in the n x m prompt embedding tensor and outputted a vector with token “importance” scores. The guidance then decided how much influence those scores will have on the generation. Training a separate classifier was problematic though. The CFG approach is now popular due to simplicity and similar effects.&lt;/p&gt;
+
+&lt;h2 id=&quot;putting-it-all-together&quot;&gt;&lt;strong&gt;Putting it all together&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;stable-diffusion-model-pipeline&quot;&gt;&lt;strong&gt;Stable Diffusion model pipeline&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://miro.medium.com/v2/resize:fit:4800/format:webp/0*z5eQUBRBVtgD3Vgv.png&quot; alt=&quot;png&quot; /&gt;
+Source: https://towardsdatascience.com/stable-diffusion-using-hugging-face-501d8dbdd8&lt;/p&gt;
+
+&lt;p&gt;Let’s put it all together, based on the example given above. We want to generate “A dog wearing a hat” and that’t exactly a prompt we provide to the Stable Diffusion model. We press “Go”…and what happens?&lt;/p&gt;
+
+&lt;p&gt;Our prompt is first coverted by to 77 tokens by the CLIP tokenizer, which are then replaced by their associated embeddings, each of length equal to 768. This gives us the 77 x 768 matrix as our first user-submitted input.&lt;/p&gt;
+
+&lt;p&gt;As second input, from Gaussian distribution we generate a tensor in latent space (so of sizes 1 x 4 x 64 x 64). This way we can skip the compression step, which was necessary only during training, where we had to compress our labeled images. This latent space is now random gibberish, but will soon become our output image.&lt;/p&gt;
+
+&lt;p&gt;The two input matrices are supplied to the noise predictor (U-Net), generating a 1 x 4 x 64 x 64 output (&lt;strong&gt;conditioned output&lt;/strong&gt;). Then, we produce one more such output, but this time input only the image matrix. This is our &lt;strong&gt;unconditioned output&lt;/strong&gt;. Now we calculate &lt;strong&gt;combined output&lt;/strong&gt; according to our &lt;strong&gt;guidance&lt;/strong&gt;. In the picture those two runs are not separated, so don’t get confused.&lt;/p&gt;
+
+&lt;p&gt;Out combined output represents the noise predicted by the model. We multiply it by some scalar value supplied the &lt;strong&gt;scheduler&lt;/strong&gt; and subtract it from the image. So, mathematically it’s just a simple subtraction of two tensors. Now taht we’ve denoised our image somewhat, we’re done with step 1. We want to reach &lt;strong&gt;step n&lt;/strong&gt;, depending on our parameter choice in the beginning.&lt;/p&gt;
+
+&lt;p&gt;For step 2 we generatea 1 x 4 x 64 x 64 Gaussian noise tensor and add it to the partially denoised image. As mentioned earlier, this is to help the model get unstuck if it has troubles during generation. Then, we just follow through the whole process in step 1.&lt;/p&gt;
+
+&lt;p&gt;When the image is done, we need to decompress it. We feed our 1 x 4 x 64 x 64 tensor into the decoder of VAE. We get 3-channeled (colored) dog picture of a dog wearing a hat, so a 3 x 512 x 512 tensor. Congrats - we’re done!&lt;/p&gt;
+
+&lt;h3 id=&quot;image-to-image&quot;&gt;&lt;strong&gt;Image to image&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;As a final note, let’s quickly discuss the &lt;strong&gt;image to image&lt;/strong&gt; feature of Stable Diffusion, where you supply an existing image, which will be modified according to the given prompt. How does it work? Is there some special method to only modify existing images and not create ones from scratch?&lt;/p&gt;
+
+&lt;p&gt;Nope. It’s practically identical to generating them from scratch. Instead of generating a random tensor with gibberish, you take the input picture, compress it to latent space and then corrupt it with noise. The more you corrupt it, the more changed it will come out. A scalar value of &lt;strong&gt;magnitude&lt;/strong&gt; let’s you control how much noise you want to add exactly. The U-Net will then take the picture and denoise it according to the prompt. And (assuming you haven’t completely reduced the picture to just gibberish noise) there will still be traces of your original image left in the noised picture. So the U-Net will just work with it, recovering a picture similar to what you had originally, but with desired changes applied.&lt;/p&gt;</content><author><name></name></author><category term="machine-learning" /><category term="tutorial" /><summary type="html">Stable Diffusion models - how to understand advanced features they offer?</summary></entry><entry><title type="html">Let’s Build an App - A Blitz Through Docker</title><link href="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html" rel="alternate" type="text/html" title="Let’s Build an App - A Blitz Through Docker" /><published>2023-12-03T13:00:00+01:00</published><updated>2023-12-03T13:00:00+01:00</updated><id>http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker</id><content type="html" xml:base="http://localhost:4000/docker/tutorial/cloud/2023/12/03/blitz-through-docker.html">&lt;h1 id=&quot;whats-a-docker&quot;&gt;What’s a Docker?&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;Docker&lt;/strong&gt; is an open source technology used in app deployment. Whenever you develop an app, you do it with chosen operating system in mind (like a particular release of Linux), as well as a language of choice, associated tooling and libraries, which we can collectively refer to as &lt;strong&gt;dependencies&lt;/strong&gt;. Whenever you run your app on some machine (for example on a rented cloud compute instance) you need to make sure that all of the dependencies are met for the app to run properly. Docker provides you an opportunity to do away with that headache by introducing a concept known as &lt;strong&gt;containers&lt;/strong&gt;. Putting your app inside one is called &lt;strong&gt;containerization&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;core-docker-concepts&quot;&gt;Core Docker Concepts&lt;/h2&gt;
