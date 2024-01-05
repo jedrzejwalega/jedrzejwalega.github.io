@@ -148,7 +148,7 @@ As second input, from Gaussian distribution we generate a tensor in latent space
 
 The two input matrices are supplied to the noise predictor (**U-Net**), generating a 1 x 4 x 64 x 64 output (**conditioned output**). Then, we produce one more such output, but this time input only the image matrix. This is our **unconditioned output**. Now we calculate **combined output** according to our **guidance**. In the picture those two runs are not separated, so don't get confused.
 
-Our combined output represents the noise predicted by the model. All we have to do is remove it from the image in a simple subtraction of two tensors. Now that we've denoised our image somewhat, we're done with step 1. We want to reach **step n**, depending on our parameter choice in the beginning.
+Our combined output represents the noise predicted by the model. All we have to do is remove it from the image in a simple subtraction of two tensors. Now that we've denoised our image, we're done with step 1. We want to reach **step n**, depending on our parameter choice in the beginning.
 
 For step 2 we generate a 1 x 4 x 64 x 64 Gaussian noise tensor according to the algorithm of our **scheduler**. Then we add it to the image outputted from step 1. As mentioned earlier, this is to help the model get unstuck if it has troubles during generation and supply it with fresh noise to work with. Then, we just follow through the whole process described in step 1.
 
