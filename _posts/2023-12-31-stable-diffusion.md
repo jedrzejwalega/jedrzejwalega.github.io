@@ -52,19 +52,19 @@ It feels like cheating, but that's actually how diffusion models work. The diffu
 
 We've mentioned real life artists and their stepwise approach to creating an art piece. Turns out this method works quite well for deep learning approach, too.
 
-Our noise predictor gives us a tensor with the predicted noise that we should subtract from the image. If we substract it, in theory, we should get our ready output picture. In practice though, our predictor might not be good enough to clear all the noise from the input gibberish it gets **in one go**. It's probably going to do a good job at determining basic shapes, but not finer details. However, if we were to grab what it spits out and feed it as an input to the model again, it could now focus on the finer aspects of the piece.
+Our noise predictor gives us a tensor with the predicted noise that we should subtract from the image. If we substract it, in theory, we should get our ready output picture. In practice though, our predictor might not be good enough to clear all the noise from the input gibberish it gets **in one go**. It's probably going to do a good job at determining basic shapes, but not finer details. However, if we were to grab what it spits out and feed it as an input to the model again, it could now focus on the finer aspects of the piece. 
 
-We can repeat this step many, many times. It's worth remembering though, that the detailing part of the art piece requires more subtlety than the first, crude approach, which only determines the basic shapes and figures. Theat's where a parameter called **scheduler** comes in.
+Let's remember that the image works by removing the noise from an input. If we were to just repeat the process as-is, the model would quickly run out of noise to work with. That's why, at each time step we will be adding some **new noise** to the image before processing it by the model. Doing that additionally helps the model deal with difficult generations, as it can get stuck on certain cases. The multi-step approach with gradual adding of the noise tends to produce good and reliable results. Now you know where the name **Stable Diffusion** came from.
+
+We can repeat the denoising step step many, many times. It's worth remembering though, that the detailing part of the art piece requires more subtlety than the first, crude approach, which only determines the basic shapes and figures. Theat's where a parameter called **scheduler** comes in.
 
 ![png](https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/03/image-104.png?resize=750%2C414&ssl=1)
 
 Source: https://iway.org/stable-diffusion-samplers/
 
-It is a value that determines the percentage of predicted noise that will actually be subtracted from the image we're denoising. It tends to decrease with each step, since we can expect that the further we go, the more the model will work on the details of our image. There are multiple versions of the scheduler, for instance some can decrease the percentage linearly, others (like the scheduler above) exponentially.
+It is a value that determines the amount of noise that will be added to the image at a particular step. It tends to decrease with time, since we can expect that the further we go, the more the model will work on the details of our image and not general shapes. As such, it won't need as much "ammunition" (in the form of noise) to recover them. There are multiple versions of the scheduler, for instance some can decrease the added noise linearly, others (like the scheduler above) exponentially.
 
 I've mentioned **steps** - yes, that's exactly the "steps" parameter you can see in the services I mentioned at the beginning. For instance, NovelAI allows you to adjust how many steps you wish to dedicate to creating your piece. More steps generally means better results. The model will usually converge on some n step and stop majorly modifying the image further, though. No point in going too crazy, then. Especially given that more steps means more time and precious compute time needed for the generation. Knowing that, you surely understand why adding additional steps usually means paying with your precious subscription tokens.
-
-Another interesting detail is that after each step we don't just grab the partially denoised output of the model and use it as input again. We add some more of the **new noise** first. Doing that helps the model deal with difficult generations, as it can get stuck on certain cases. Adding in some new noise for it to work with tends to produce good and reliable results.
 
 ## **From diffusion to Stable Diffusion**
 
@@ -144,13 +144,13 @@ Let's put it all together, based on the example given above. We want to generate
 
 Our prompt is first coverted by to 77 tokens by the CLIP tokenizer, which are then replaced by their associated embeddings, each of length equal to 768. This gives us the 77 x 768 matrix as our first user-submitted input.
 
-As second input, from Gaussian distribution we generate a tensor in latent space (so of sizes 1 x 4 x 64 x 64). This way we can skip the compression step, which was necessary only during training, where we had to compress our labeled images. This latent space is now random gibberish, but will soon become our output image.
+As second input, from Gaussian distribution we generate a tensor in latent space (so of sizes 1 x 4 x 64 x 64). This way we can skip the compression step, which was necessary only during training, where we had to compress our labeled images. This latent space is now random gibberish, but will soon become our output image. In case you're wondering about the 4-dimensional tensor we're creating - our noise predictor is able to work with multiple images at a time. This means we can stack them together as a new dimension (in this case we have only one image, so its value is 1). In other words, our tensor represents: **image indices x channels x height x width**.
 
-The two input matrices are supplied to the noise predictor (U-Net), generating a 1 x 4 x 64 x 64 output (**conditioned output**). Then, we produce one more such output, but this time input only the image matrix. This is our **unconditioned output**. Now we calculate **combined output** according to our **guidance**. In the picture those two runs are not separated, so don't get confused.
+The two input matrices are supplied to the noise predictor (**U-Net**), generating a 1 x 4 x 64 x 64 output (**conditioned output**). Then, we produce one more such output, but this time input only the image matrix. This is our **unconditioned output**. Now we calculate **combined output** according to our **guidance**. In the picture those two runs are not separated, so don't get confused.
 
-Out combined output represents the noise predicted by the model. We multiply it by some scalar value supplied the **scheduler** and subtract it from the image. So, mathematically it's just a simple subtraction of two tensors. Now taht we've denoised our image somewhat, we're done with step 1. We want to reach **step n**, depending on our parameter choice in the beginning.
+Out combined output represents the noise predicted by the model. All we have to do is remove it from the image in a simple subtraction of two tensors. Now taht we've denoised our image somewhat, we're done with step 1. We want to reach **step n**, depending on our parameter choice in the beginning.
 
-For step 2 we generatea 1 x 4 x 64 x 64 Gaussian noise tensor and add it to the partially denoised image. As mentioned earlier, this is to help the model get unstuck if it has troubles during generation. Then, we just follow through the whole process in step 1.
+For step 2 we generatea 1 x 4 x 64 x 64 Gaussian noise tensor according to the algorithm of our **scheduler**. Then we add it to the image outputted from step 1. As mentioned earlier, this is to help the model get unstuck if it has troubles during generation and supply it with fresh noise to work with. Then, we just follow through the whole process described in step 1.
 
 When the image is done, we need to decompress it. We feed our 1 x 4 x 64 x 64 tensor into the decoder of VAE. We get 3-channeled (colored) dog picture of a dog wearing a hat, so a 3 x 512 x 512 tensor. Congrats - we're done!
 
