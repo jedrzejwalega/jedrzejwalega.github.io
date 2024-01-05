@@ -56,7 +56,7 @@ Our noise predictor gives us a tensor with the predicted noise that we should su
 
 Let's remember that the image works by removing the noise from an input. If we were to just repeat the process as-is, the model would quickly run out of noise to work with. That's why, at each time step we will be adding some **new noise** to the image before processing it by the model. Doing that additionally helps the model deal with difficult generations, as it can get stuck on certain cases. The multi-step approach with gradual adding of the noise tends to produce good and reliable results. Now you know where the name **Stable Diffusion** came from.
 
-We can repeat the denoising step step many, many times. It's worth remembering though, that the detailing part of the art piece requires more subtlety than the first, crude approach, which only determines the basic shapes and figures. Theat's where a parameter called **scheduler** comes in.
+We can repeat the denoising step step many, many times. It's worth remembering though, that the detailing part of the art piece requires more subtlety than the first, crude approach, which only determines the basic shapes and figures. That's where a parameter called **scheduler** comes in.
 
 ![png](https://i0.wp.com/stable-diffusion-art.com/wp-content/uploads/2023/03/image-104.png?resize=750%2C414&ssl=1)
 
@@ -142,17 +142,17 @@ Source: https://towardsdatascience.com/stable-diffusion-using-hugging-face-501d8
 
 Let's put it all together, based on the example given above. We want to generate "A dog wearing a hat" and that't exactly a prompt we provide to the Stable Diffusion model. We press "Go"...and what happens?
 
-Our prompt is first coverted by to 77 tokens by the CLIP tokenizer, which are then replaced by their associated embeddings, each of length equal to 768. This gives us the 77 x 768 matrix as our first user-submitted input.
+Our prompt is first coverted to 77 tokens by the **CLIP tokenizer**, which are then replaced by their associated embeddings, each of length equal to 768. This gives us the 77 x 768 matrix as our first user-submitted input.
 
-As second input, from Gaussian distribution we generate a tensor in latent space (so of sizes 1 x 4 x 64 x 64). This way we can skip the compression step, which was necessary only during training, where we had to compress our labeled images. This latent space is now random gibberish, but will soon become our output image. In case you're wondering about the 4-dimensional tensor we're creating - our noise predictor is able to work with multiple images at a time. This means we can stack them together as a new dimension (in this case we have only one image, so its value is 1). In other words, our tensor represents: **image indices x channels x height x width**.
+As second input, from Gaussian distribution we generate a tensor in latent space (so of sizes 1 x 4 x 64 x 64). This way we can skip the compression step, which was necessary only during training, where we had to compress our labeled images. This latent space is now random gibberish, but will soon become our output image. In case you're wondering about the 4-dimensional tensor we're creating - our noise predictor is able to work with multiple images at the same time. This means we can stack them together as a new dimension (in this case we have only one image, so its value is 1). In other words, our tensor represents: **image indices x channels x height x width**.
 
 The two input matrices are supplied to the noise predictor (**U-Net**), generating a 1 x 4 x 64 x 64 output (**conditioned output**). Then, we produce one more such output, but this time input only the image matrix. This is our **unconditioned output**. Now we calculate **combined output** according to our **guidance**. In the picture those two runs are not separated, so don't get confused.
 
-Out combined output represents the noise predicted by the model. All we have to do is remove it from the image in a simple subtraction of two tensors. Now taht we've denoised our image somewhat, we're done with step 1. We want to reach **step n**, depending on our parameter choice in the beginning.
+Our combined output represents the noise predicted by the model. All we have to do is remove it from the image in a simple subtraction of two tensors. Now that we've denoised our image somewhat, we're done with step 1. We want to reach **step n**, depending on our parameter choice in the beginning.
 
-For step 2 we generatea 1 x 4 x 64 x 64 Gaussian noise tensor according to the algorithm of our **scheduler**. Then we add it to the image outputted from step 1. As mentioned earlier, this is to help the model get unstuck if it has troubles during generation and supply it with fresh noise to work with. Then, we just follow through the whole process described in step 1.
+For step 2 we generate a 1 x 4 x 64 x 64 Gaussian noise tensor according to the algorithm of our **scheduler**. Then we add it to the image outputted from step 1. As mentioned earlier, this is to help the model get unstuck if it has troubles during generation and supply it with fresh noise to work with. Then, we just follow through the whole process described in step 1.
 
-When the image is done, we need to decompress it. We feed our 1 x 4 x 64 x 64 tensor into the decoder of VAE. We get 3-channeled (colored) dog picture of a dog wearing a hat, so a 3 x 512 x 512 tensor. Congrats - we're done!
+When the image is done, we need to decompress it. We feed our 1 x 4 x 64 x 64 tensor into the decoder of **VAE**. We get a single, 3-channeled (colored) dog picture of a dog wearing a hat, so a 1 x 3 x 512 x 512 tensor. Congrats - we're done!
 
 ### **Image to image**
 
