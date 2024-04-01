@@ -29,4 +29,29 @@ A completely random LoRA downloadable from Civitai: https://civitai.com/models/6
 
 # How Does It Work?
 ## Theoretical Basis
-### Low Rank Representation
+### Relevant Papers
+
+At the very core of what LoRA is stands a mathematical technique of **low-rank representation** of a matrix. Those two papers: 
+1) https://arxiv.org/abs/2012.13255
+2) https://arxiv.org/pdf/2106.09685.pdf
+
+### Low-rank Intrinsic Dimension
+
+serve as an in-depth explanation on why the technique is even relevant for machine learning. Here's what the papers mean in layman's terms. 
+
+The first one finds out that for deep learning models most of its knowledge (in other words, the patters and relationships learnt by them) can actually be explained by **far less parameters** than they contain. In fact, it turns out that the larger the model, the greater this effect is. Because those large models contains relatively few "core" parameters we are able to fine tune them with small datasets in the first place. The core conclusion is this: when we want to fine tune them, there are surprisingly few parameters that are really worth tweaking. In the paper they are referred to as an **intrinsic dimension**, as since there are so few of them, we're saying that the models have a **low intrinsic dimension**.
+
+### Low-Rank Adaptation
+#### Separating Changes Into A Matrix
+
+The second paper goes a step further with this idea. Let's say we want to fine tune a matrix of weights of some model. Normally we would image the process as taking this matrix and interativelly change its values in the fine tuning training loop. And that's true - but we can also think about this process in another way.
+
+We can also imagine it as taking the original matrix of weights and, instead of manipulating its weights' values in place, we can try adding to it a matrix of identical size. In this scenario, the original matrix would be **unchanging**. Instead, it would be the new matrix that is being fine tuned. After adding it to the original we would end up with the same changes in the weights' values - but without touching the original matrix, which will prove beneficial later.
+
+$$ \text{W} = W_0 - \Delta W $$
+
+Where:
+- W - is the fine tuned set of weights
+- W<sub>0</sub> - is the original model's set of weights
+- ΔW - is a new set of weights, equal in size to W and W<sub>0</sub>, representing the incoming change in model's weights.
+
