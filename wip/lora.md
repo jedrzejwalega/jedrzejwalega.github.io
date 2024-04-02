@@ -68,6 +68,8 @@ Just imagine that we've reduced the adaptation matrix to an arbitrary size of 20
 2) **What dimensions should our adaptation matrix be?**
 The low-rank intrinsic dimension property of the model says that a fraction of its parameters should be enough to represent the patters learned by the model. But how many parameters is that exactly? 400? 1000? We can't just take a wild guess.
 
-### Rank Decomposition
+### Singular Value Decomposition
 
-Fortunately there is a mathematical technique that lets us address the above two questions at once.
+Fortunately there is a mathematical technique that lets us address the above two questions at once. **Singular Value Decomposition** (**SVD**) is a technique which I won't discuss here in detail, but I'll focus on the benefits it can provide us.
+
+SVD takes in a matrix and returns three other matrices.
