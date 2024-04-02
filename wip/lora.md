@@ -28,8 +28,7 @@ It's worth pointing out though that LoRA is the current golden standard for fine
 A completely random LoRA downloadable from Civitai: https://civitai.com/models/63556/lora-0mib-type-of-vector-art
 
 # How Does It Work?
-## Theoretical Basis
-### Relevant Papers
+## Relevant Papers
 
 At the very core of what LoRA is stands a mathematical technique of **low-rank representation** of a matrix. Those two papers: 
 1) https://arxiv.org/abs/2012.13255
@@ -37,12 +36,12 @@ At the very core of what LoRA is stands a mathematical technique of **low-rank r
 
 serve as an in-depth explanation on why the technique is even relevant for machine learning. Here's what the papers mean in layman's terms. 
 
-### Low-rank Intrinsic Dimension
+## Low-rank Intrinsic Dimension
 
 The first one finds out that for deep learning models most of its knowledge (in other words, the patters and relationships learnt by them) can actually be explained by **far less parameters** than they contain. In fact, it turns out that the larger the model, the greater this effect is. Because those large models contains relatively few "core" parameters we are able to fine tune them with small datasets in the first place. The core conclusion is this: when we want to fine tune them, there are surprisingly few parameters that are really worth tweaking. In the paper they are referred to as an **intrinsic dimension**, as since there are so few of them, we're saying that the models have a **low intrinsic dimension**.
 
-### Low-Rank Adaptation
-#### Separating Changes Into A Matrix
+## Low-Rank Adaptation
+### Separating Changes Into A Matrix
 
 The second paper goes a step further with this idea. Let's say we want to fine tune a matrix of weights of some model. Normally we would image the process as taking this matrix and interativelly change its values in the fine tuning training loop. And that's true - but we can also think about this process in another way.
 
@@ -55,3 +54,20 @@ Where:
 - W<sub>0</sub> - is the original model's set of weights
 - ΔW - is a new set of weights, equal in size to W and W<sub>0</sub>, representing the incoming change in model's weights.
 
+### Low Rank Adaptation Matrix
+
+The previous paragraph told us that we can separate our fine tuning process into **original matrix** and an **adaptation matrix** that will contain all the changes. That's interesting, but hardly what the second paper truly was about. Instead, it focused on the low-rank intrinsic dimension property of the models, as discovered in the first paper.
+
+This property would also apply to our original matrix - W<sub>0</sub>, which is supposed to represent one of the layers of a large model. Let's say it's a 400 x 400 matrix. Out of its 160000 parameters only a fraction would be the core ones. But during fine tuning described in the previous paragraph we still created matrix ΔW of 160000 parameters and tried to learn all of them, even though most didn't really impact the performance of the model that much. The second paper says this - **since only a fraction of W<sub>0</sub> parameters are the core ones, why don't we focus only on them during fine tuning?** 
+
+You could also formulate it as such: **We should be able to learn a ΔW much smaller than 160000 parameters and, after applying it to the original matrix, still achieve a similar performance to a full size adaptation matrix.** This smaller matrix is often referred to as a **low-rank matrix**.
+
+But before we do that we need to answer two important questions:
+1) **How do we add a smaller adaptation matrix to the original one?**
+Just imagine that we've reduced the adaptation matrix to an arbitrary size of 20 x 20, because we think that we will have only 400 core parameters. How do add 20 x 20 matrix to the original 400 x 400?
+2) **What dimensions should our adaptation matrix be?**
+The low-rank intrinsic dimension property of the model says that a fraction of its parameters should be enough to represent the patters learned by the model. But how many parameters is that exactly? 400? 1000? We can't just take a wild guess.
+
+### Rank Decomposition
+
+Fortunately there is a mathematical technique that lets us address the above two questions at once.
