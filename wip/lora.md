@@ -96,3 +96,10 @@ There should be two. Rows x rank and columns x rank. We initialize them and will
 Notice an interesting property of the two matrices mentioned above. When you multiply two low rank adaptation matrices by each other, you'll get a matrix of original size. And that's how you can simply **add the two together** to introduce fine tuning changes to the original set of weights.
 
 Those two low rank adaptation matrices are smaller than the original weights. Less parameters means easier and faster training and lighter file to share with the community. The possibility of simply adding the loaded adaptation matrices onto the original model without necessity to exchanging the entirety of it add a very convenient modularity aspect to the technique. And that's why LoRA is so popular these days.
+
+Sometimes you will also see an **alpha** hyperparameter in your LoRA pipeline. It's a multiplication factor that gets applied to the adaptation matrix before it gets added to the original set of weights. It simply allows you to pick how big of an impact will the fine tuning changes have on your original model.
+
+![png](/assets/images/lora_alpha_levels.png)
+
+
+An example of no LoRA applied vs alpha at strength: 4.0 and 12.0. Source: https://civitai.com/images/2618036
