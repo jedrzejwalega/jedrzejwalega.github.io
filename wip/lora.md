@@ -3,7 +3,7 @@ title: "LoRA - Most Popular Fine Tuning Method"
 date: 2024-02-24 12:00:00 -0000
 categories: [machine-learning]
 header:
-  overlay_image: /assets/images/lora.png
+  overlay_image: /assets/images/lora_banner.png
   overlay_filter: 0.3
 layout: splash
 excerpt: "What the hell are those LoRA files available on the Internet?"
@@ -102,4 +102,4 @@ Sometimes you will also see an **alpha** hyperparameter in your LoRA pipeline. I
 ![png](/assets/images/lora_alpha_levels.png)
 
 
-An example of no LoRA applied vs alpha at strength: 4.0 and 12.0. Source: https://civitai.com/images/2618036
+An example of no LoRA applied vs alpha at strength: 4.0 and 12.0. Source for the image, as well as the banner: https://civitai.com/images/2618036
