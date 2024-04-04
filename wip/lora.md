@@ -63,10 +63,13 @@ This property would also apply to our original matrix - W<sub>0</sub>, which is 
 You could also formulate it as such: **We should be able to learn a ΔW much smaller than 160000 parameters and, after applying it to the original matrix, still achieve a similar performance to a full size adaptation matrix.** This smaller matrix is often referred to as a **low-rank matrix**.
 
 But before we do that we need to answer two important questions:
-1) **How do we add a smaller adaptation matrix to the original one?**
-Just imagine that we've reduced the adaptation matrix to an arbitrary size of 20 x 20, because we think that we will have only 400 (20 * 20) core parameters. How to add a 20 x 20 matrix to the original 400 x 400?
-2) **What dimensions should our adaptation matrix be?**
+
+1) **What dimensions should our adaptation matrix be?**
 The low-rank intrinsic dimension property of the model says that a fraction of its parameters should be enough to represent the patters learned by the model. But how many parameters is that exactly? 400? 1000? We can't just take a wild guess.
+
+2) **How do we add a smaller adaptation matrix to the original one?**
+Just imagine that we've reduced the adaptation matrix to an arbitrary size of 20 x 20, because we think that we will have only 400 (20 * 20) core parameters. How to add a 20 x 20 matrix to the original 400 x 400?
+
 
 ### Singular Value Decomposition
 
@@ -78,4 +81,18 @@ SVD takes in a matrix and returns three other matrices. Assuming our matrix in t
 - V<sup>T</sup> - columns x column - a matrix representing how each column is related to others
 - Σ - rows x columns - a matrix of all zeroes except diagonal values. Those values represent how much variance is captured by their corresponding values in U and V<sup>T</sup>. U and V<sup>T</sup> are related to each other so one diagonal value in Σ has equivalents in both U and V<sup>T</sup>.
 
-If we take a step back and consider what we're getting out of this, then we'll realize that our matrix Σ is a ranking of "importances" of features that we were after! With this we can easily select an arbitrary number of top parameters for our core parameter selection. How many should we retain? That's an **hyperparameter** in its own way - **rank** (**r**).
+If we take a step back and consider what we're getting out of this, then we'll realize that our matrix Σ is a ranking of "importances" of features that we were after! With this we can easily select an arbitrary number of top parameters for our core parameter selection. How many should we retain? That's a **hyperparameter** in its own right - **rank** (**r**). 
+
+Based on the three matrices that we have we can make an estimation for reasonable rank with **energy retention** or **cumulative variance** mathematical techniques. They will tell us what rank we have to pick so that our low rank matrices still explain a desired percentage of variance (i.e 90%).
+
+Once we pick a reasonable rank, we no longer need our U, V<sup>T</sup> or Σ. We already know what we were after. We know that matrices of sizes rows x rank (reduced U) and rank x columns (reduced V<sup>T</sup>) are enough to explain the amount of variance in the original matrix. So, this amount should be good enough for fine tuning it too, right? **That's exactly the thesis of the 2021 paper pasted earlier**. 
+
+ Now we can answer the questions from the previous paragraph.
+
+1) **What dimensions should our adaptation matrix be?**
+There should be two. Rows x rank and columns x rank. We initialize them and will learn its parameters during fine tuning.
+
+2) **How do we add a smaller adaptation matrix to the original one?**
+Notice an interesting property of the two matrices mentioned above. When you multiply two low rank adaptation matrices by each other, you'll get a matrix of original size. And that's how you can simply **add the two together** to introduce fine tuning changes to the original set of weights.
+
+Those two low rank adaptation matrices are smaller than the original weights. Less parameters means easier and faster training and lighter file to share with the community. The possibility of simply adding the loaded adaptation matrices onto the original model without necessity to exchanging the entirety of it add a very convenient modularity aspect to the technique. And that's why LoRA is so popular these days.
