@@ -64,7 +64,7 @@ You could also formulate it as such: **We should be able to learn a ΔW much sma
 
 But before we do that we need to answer two important questions:
 1) **How do we add a smaller adaptation matrix to the original one?**
-Just imagine that we've reduced the adaptation matrix to an arbitrary size of 20 x 20, because we think that we will have only 400 core parameters. How do add 20 x 20 matrix to the original 400 x 400?
+Just imagine that we've reduced the adaptation matrix to an arbitrary size of 20 x 20, because we think that we will have only 400 (20 * 20) core parameters. How to add a 20 x 20 matrix to the original 400 x 400?
 2) **What dimensions should our adaptation matrix be?**
 The low-rank intrinsic dimension property of the model says that a fraction of its parameters should be enough to represent the patters learned by the model. But how many parameters is that exactly? 400? 1000? We can't just take a wild guess.
 
@@ -72,4 +72,10 @@ The low-rank intrinsic dimension property of the model says that a fraction of i
 
 Fortunately there is a mathematical technique that lets us address the above two questions at once. **Singular Value Decomposition** (**SVD**) is a technique which I won't discuss here in detail, but I'll focus on the benefits it can provide us.
 
-SVD takes in a matrix and returns three other matrices.
+SVD takes in a matrix and returns three other matrices. Assuming our matrix in the shape rows x columns, they will have the following sizes:
+
+- U - rows x rows - a matrix representing how each row is realted to the others
+- V<sup>T</sup> - columns x column - a matrix representing how each column is related to others
+- Σ - rows x columns - a matrix of all zeroes except diagonal values. Those values represent how much variance is captured by their corresponding values in U and V<sup>T</sup>. U and V<sup>T</sup> are related to each other so one diagonal value in Σ has equivalents in both U and V<sup>T</sup>.
+
+If we take a step back and consider what we're getting out of this, then we'll realize that our matrix Σ is a ranking of "importances" of features that we were after! With this we can easily select an arbitrary number of top parameters for our core parameter selection. How many should we retain? That's an **hyperparameter** in its own way - **rank** (**r**).
